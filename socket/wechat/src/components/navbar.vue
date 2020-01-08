@@ -31,14 +31,17 @@
         height: 36px;
         width: 36px;
         border-radius: 2px;
+      
     }
 }
 .content{
      height: 40px;
      width: 40px;
+     cursor: pointer;
      .image{
             margin-top: 15px;
             margin-left: 15px;
+
      }
 
 }

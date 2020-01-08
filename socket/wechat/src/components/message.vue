@@ -14,9 +14,9 @@
                 <div class="co-message"></div>
                 <div class="co-send">
                     <div class="co-send-tool"></div>
-                   <textarea name="" id=""  rows="5"></textarea>
+                   <textarea name="" id=""  rows="5" v-model="msg"></textarea>
                    <div class="co-send-bot">
-                       <div class="box">
+                       <div class="box" @click="sendMessage(msg)">
                            发送(S)
                        </div>
                    </div>
@@ -31,7 +31,18 @@
 
 
 <script>
+import $ws from '@/server/index.js';
 export default {
+    data () {
+        return {
+            msg:''
+        }
+    },
+    methods: {
+        sendMessage(value){
+           $ws.sendAsync(value)
+        }
+    }
     
 }
 </script>

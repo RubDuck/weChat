@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import ws from '@/server/index.js'
 
 Vue.use(Router)
 
@@ -10,7 +11,9 @@ Vue.use(Router)
 //   }
 // }
 
-export default new Router({
+
+
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -43,3 +46,16 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to,form,next)=>{
+   // 未开启长连接需要打开长连接
+   if (ws.readyState === 'NOCREATE') {
+     console.log('打开长连接')
+    ws.open();
+  }
+  return next()
+})
+
+
+
+export default router;
