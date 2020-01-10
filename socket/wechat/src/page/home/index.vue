@@ -8,6 +8,7 @@
 
 <style lang="scss" scoped>
 .Home{
+    margin-top: 40px;
     .head{
         color:red
     }

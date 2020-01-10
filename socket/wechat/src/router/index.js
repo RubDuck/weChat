@@ -14,11 +14,12 @@ Vue.use(Router)
 
 
 const router = new Router({
+  mode: 'history', 
   routes: [
     {
       path: '/',
-      name: 'Home',
-      redirect : '/chat'
+      name: 'Login',
+      redirect : '/login'
     },
     {
       path: '/home',

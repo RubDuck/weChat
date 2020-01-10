@@ -14,7 +14,10 @@ module.exports = {
       '/user':{
         target:'http://localhost:9000',
         secure:true,
-        changeOrigin:true
+        changeOrigin:true,
+        pathRewrite(path){
+          return path.replace(/^\/user/,'')
+        }
       }
     },
 

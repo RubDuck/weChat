@@ -1,5 +1,5 @@
 <template>
-    <div class="Login bg">
+    <div class="Login">
         <div class="L-form">
             <div class="title">
                 <div :class="Login?'t-enter':'t-enter sel'" @click="select(false)">
@@ -10,11 +10,11 @@
                 </div>
             </div>
             <div class="form">
-                <el-form ref="form"  label-width="80px">
-                    <el-form-item label="账号">
-                        <el-input v-model="Form.name"></el-input>
+                <el-form ref="form" :model="Form" :rules='rules' label-width="80px">
+                    <el-form-item label="账号" prop="name" :error="errMessage.errorName">
+                        <el-input v-model="Form.name" ></el-input>
                     </el-form-item>
-                    <el-form-item label="密码">
+                    <el-form-item label="密码" prop="password" :error="errMessage.errorPassord">
                         <el-input v-model="Form.password"></el-input>
                     </el-form-item>
                     <el-form-item>
@@ -33,6 +33,7 @@
 
 <script>
 import axios from 'axios';
+import qs from 'qs';
 export default {
     data () {
         return {
@@ -40,26 +41,58 @@ export default {
             Form:{
                 name:'',
                 password:''
-            }
+            },
+            rules:{
+                name:   [{  required: true, message: '请输入账号' }],
+                password :[{  required: true, message: '请输入密码' }]
+            },
+            errMessage:{
+                errorName:"",
+                errorPassord:""
+            },
         }
     }
     ,
+    created () {
+    },
     methods: {
         select(value){
             this.Login=value
         },
         submit(){
-            var params = {
-                name:'',
-                password:''
-            }
-           var {params} = this.Form
-           console.log(params)
-            axios.post('/user/enter',params).then(e=>{
-                console.log('请求成功',e)
-              
-            })
-        }
+            let that =this
+           var params ={...this.Form}
+           var url = that.Login? '/user/login':'/user/enter'
+           that.errMessage.errorName = ''
+           that.errMessage.errorPassord = ''
+           that.$refs.form.validate((valid)=>{
+               if (valid){
+                   axios.post(url,qs.stringify(params)).then(e=>{
+                    if(e.data.type==3){
+                        that.state(e.data.message,'success')
+                        that.$router.push({name:'Chat'})
+                    }
+                    else if(e.data.type==1){
+                        // that.state(e.data.message,'error')
+                        console.log(that.errMessage.errorName)
+                       that.errMessage.errorName = e.data.message
+                    }
+                    else{  
+                        that.errMessage.errorPassord = e.data.message
+                    }
+                    })
+               }
+               else{
+                   return
+               }
+           })
+        },
+        state(message,type){
+            this.$message({
+            message: message,
+            type: type
+        });
+        },
     }
 }
 </script>

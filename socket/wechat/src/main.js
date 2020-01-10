@@ -8,6 +8,8 @@ import ws from '@/server'
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/style/common.css'
 import ElementUI from 'element-ui'
+import '@/server/base.js'
+import store from './store'
 
 Vue.config.productionTip = false
 Vue.use(ws)
@@ -17,6 +19,7 @@ Vue.use(ElementUI)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
