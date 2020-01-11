@@ -9,9 +9,10 @@
     },
     userMessage:function(name){
         return `SELECT * FROM tb_user WHERE user_name='${name}'` 
+    },
+    searchFriends:function(id){
+        return `SELECT * FROM tb_friend WHERE user_id='${id}'`
     }
-
-
 }
 
 

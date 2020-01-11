@@ -61,15 +61,15 @@ app.post('/enter',function(req,res){
       if(result1[0]){
         return ope.sql(sql.judgePassword(name,password))
       }
-      res.status(200).json({message:'账号错误',type:1})
+      res.status(200).json({message:'账号错误',type:1,code:400})
       return 'notEnter'
   }).then(result2=>{
     if(result2!=='notEnter'){
       if(result2[0]){
         req.session.user = name; // 登录成功，设置 session
-        return res.status(200).json({message:'登陆成功',type:3})
+        return res.status(200).json({message:'登陆成功',type:3,data:{user_name:result2[0].user_name,user_id:result2[0].user_id},code:200})
       }
-       res.status(200).json({message:'密码错误',type:2})
+       res.status(200).json({message:'密码错误',type:2,code:400})
     }
   })
 })
@@ -88,7 +88,7 @@ app.post('/login',function(req,res){
 //登录判断
 
 app.post('/test',function(req,res){
- console.log('这是seiion  吗',req.session.user,req.session)
+  console.log(req.session.user,'????',req.cookies,req)
  if(req.session.user){
  ope.sql(sql.userMessage(req.session.user)).then(e=>{
    res.json({data:e,message:'登录成功',code:200})
@@ -99,6 +99,17 @@ app.post('/test',function(req,res){
  }
  
 })
+
+//查询好友列表
+app.post('/searchFriend',function(req,res){
+  var id = req.body.user_id
+  console.log(id,req.body)
+  ope.sql(sql. searchFriends(id)).then(e=>{
+    res.json({data:e})
+  })
+})
+
+
 
 
 server.listen(9000, function () {
