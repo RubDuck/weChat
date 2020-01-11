@@ -12,9 +12,5 @@ class NetWork extends SubWebSocket{
     install(Vue){
         Vue.prototype.$ws = this
     }
-
 }
-
-
-
 export default new NetWork()  ;

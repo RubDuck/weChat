@@ -6,17 +6,27 @@ var keyWord = 'Hel';
 var sid = Cookies.get(keyWord)
 var domain = location.pathname
 
+//简陋的cookie登录判断
+
 if(sid){
     axios.post('/user/test').then(e=>{
         if(e.data.code==200){
-            console.log(store,e.data)
+            store.commit('upUserInfo', e.data.data[0])
             if(domain == '/login'){
-                window.location.href = '/chat'
+                window.location.href = '/friend'
             }
+        }
+        else{
+            if(domain !== '/login'){
+                window.location.href='/login'
+            } 
         }
     })
     
 }
-else{
-    window.location.href='/login'
+else {
+    if(domain !== '/login'){
+        window.location.href='/login'
+    } 
+   
 }

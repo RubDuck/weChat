@@ -69,12 +69,14 @@ export default {
                if (valid){
                    axios.post(url,qs.stringify(params)).then(e=>{
                     if(e.data.type==3){
+                        if(e.data){
+                            that.$store.state.userInfo=e.data.data
+                        }
                         that.state(e.data.message,'success')
-                        that.$router.push({name:'Chat'})
+                        that.$router.push({name:'Friend'})
                     }
                     else if(e.data.type==1){
                         // that.state(e.data.message,'error')
-                        console.log(that.errMessage.errorName)
                        that.errMessage.errorName = e.data.message
                     }
                     else{  

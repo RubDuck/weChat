@@ -1,7 +1,7 @@
 <template>
     <div class="Nav">
         <div class="head">
-            <img src="@/assets/images/hg.jpg" alt="">
+            <img src="@/assets/images/hg.jpg" alt="" class="IMG">
         </div>
         <div class="content">
             <div v-for="(nav,index) in navList" :key="index" class="image" @click="sel(nav)">
@@ -14,7 +14,7 @@
 <style lang="scss" scoped>
 .Nav{
     float: left;
-    width: 70px;
+    width: 8%;
     height:100%;
     overflow: hidden;
     background: black;
@@ -25,37 +25,19 @@
     width: 40px;
     background: white;
     overflow: hidden;
-    img{
-        display: block;
-        margin:2px;
-        height: 36px;
-        width: 36px;
-        border-radius: 2px;
-      
-    }
 }
 .content{
+    margin:0 auto;
      height: 40px;
      width: 40px;
      cursor: pointer;
      .image{
             margin-top: 15px;
-            margin-left: 15px;
 
      }
 
 }
-
 </style>
-
-
-
-
-
-
-
-
-
 <script>
 import nav from '@/config/nav.js';
 
@@ -70,7 +52,7 @@ export default {
     },
     methods: {
         sel(value){
-            this.$router.push({name:value.name})
+            this.$router.push({name:value.name}).catch(err => err);
         }
     }
     

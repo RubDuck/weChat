@@ -4,3 +4,16 @@
 .sel{
     color: red;
 }
+
+.IMG{
+    display: block;
+    margin:2px;
+    height: 36px;
+    width: 36px;
+    border-radius: 2px;
+      
+}
+.actives{
+    background:#CED1D4;
+    pointer-events: none;
+}

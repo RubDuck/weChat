@@ -7,6 +7,7 @@
 <script>
 import navbar from '@/components/navbar';
 import message from '@/components/message';
+import service from '@/axios/service.js';
 export default {
     components: {
         navbar,

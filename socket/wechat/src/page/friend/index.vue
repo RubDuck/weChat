@@ -1,13 +1,36 @@
 <template>
     <div class="Friend">
         <navbar></navbar>
-        <message></message>
+        <message :list = 'friendList'></message>
     </div>
 </template>
 <script>
 import navbar from '@/components/navbar';
 import message from '@/components/message';
+import service from '@/axios/service.js';
 export default {
+    data () {
+        return {
+            userMessage:'',
+            friendList:''
+        }
+    },
+    created () {
+        this.userMessage = this.$store.state.userInfo
+        this.getList()
+    },
+    methods: {
+        getList(){
+
+            var params = {
+                user_id:""
+            }
+            params.user_id = this.userMessage.user_id
+            service.firendList(params).then(e=>{
+              this.friendList = e.data.data
+              })
+        }
+    },
     components: {
         navbar,
         message
