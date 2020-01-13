@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import store from '../store'
+import store from '../store';
+import getData from '../axios/getData'
 
 var keyWord = 'Hel';
 var sid = Cookies.get(keyWord)
@@ -11,6 +12,7 @@ var domain = location.pathname
 if(sid){
     axios.post('/user/test').then(e=>{
         if(e.data.code==200){
+            getData.open(e.data.data[0])
             store.commit('upUserInfo', e.data.data[0])
             if(domain == '/login'){
                 window.location.href = '/friend'

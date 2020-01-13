@@ -34,6 +34,7 @@
 <script>
 import axios from 'axios';
 import qs from 'qs';
+import getData from '@/axios/getData';
 export default {
     data () {
         return {
@@ -71,6 +72,7 @@ export default {
                     if(e.data.type==3){
                         if(e.data){
                             that.$store.state.userInfo=e.data.data
+                            getData.open(e.data.data)
                         }
                         that.state(e.data.message,'success')
                         that.$router.push({name:'Friend'})

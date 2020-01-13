@@ -5,10 +5,19 @@ const  getData = {}
 // 发送消息
 
 getData.sendMessage = function(value,data){
-    return $ws.sendAsync({
+    return $ws.sendAsync(JSON.stringify({
         type:'sendMessage',
-        data:{msg:value,id:data.f_id}
-    })
+        msg:value,
+        data:data
+    }))
+}
+
+
+getData.open = function(value){
+    return $ws.sendAsync(JSON.stringify({
+        type:'open',
+        id:value
+    }))
 }
 
 

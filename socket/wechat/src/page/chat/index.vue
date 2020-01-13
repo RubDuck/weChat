@@ -8,7 +8,21 @@
 import navbar from '@/components/navbar';
 import message from '@/components/message';
 import service from '@/axios/service.js';
+import pubSub from '@/server/pubSub' ; 
 export default {
+    data () {
+        return {
+            connectList:''
+        }
+    },
+    created () {
+        pubSub.addEventListene('message',this.getList)
+    },
+    methods: {
+        getList(args){
+            
+        }
+    },
     components: {
         navbar,
         message
