@@ -30,21 +30,27 @@ app.use(session({
 wss.on('connection', (ws) => {
   // 监听客户端消息
   ws.on('message', (message) => {
-    console.log('客户端发来消息')
-    console.log(message);
-    // let msgData = JSON.parse(message);   
-    // if (msgData.type === 'open') {
-    //   // 初始连接时标识会话
-    //   ws.sessionId = `${msgData.fromUserId}-${msgData.toUserId}`;
-    // } else {
-    //   let sessionId = `${msgData.toUserId}-${msgData.fromUserId}`;
-    //   wss.clients.forEach(client => {
-    //     if (client.sessionId === sessionId) {
-    //       client.send(message);
-    //     }
-    //   })  
-    // }
-    ws.send(message)
+    let msgData = JSON.parse(message);  
+    if(msgData.type == 'open'){
+      ws.user = msgData.id
+    }
+    if(msgData.type == 'heartBeat'){
+      ws.send(JSON.stringify({type:'heartBeat',message:''}))
+    }
+    if(msgData.type == 'sendMessage'){
+      wss.clients.forEach(client=>{
+        console.log(client.user,'-----------',msgData)
+        if(client.user&&msgData.data.f_id== client.user.user_id){
+          console.log('这里不再像？？')
+          client.send(JSON.stringify({
+            type:'response',
+            msg:msgData.msg,
+            chat:client.user,
+            user:{user_id:msgData.data.user_id,user_name:msgData.data.user_name}
+          }))
+        }
+      })
+    }
   })
   // 连接关闭
   ws.on('close', () => {
@@ -88,7 +94,6 @@ app.post('/login',function(req,res){
 //登录判断
 
 app.post('/test',function(req,res){
-  console.log(req.session.user,'????',req.cookies,req)
  if(req.session.user){
  ope.sql(sql.userMessage(req.session.user)).then(e=>{
    res.json({data:e,message:'登录成功',code:200})
@@ -103,8 +108,7 @@ app.post('/test',function(req,res){
 //查询好友列表
 app.post('/searchFriend',function(req,res){
   var id = req.body.user_id
-  console.log(id,req.body)
-  ope.sql(sql. searchFriends(id)).then(e=>{
+  ope.sql(sql.searchFriends(id)).then(e=>{
     res.json({data:e})
   })
 })
